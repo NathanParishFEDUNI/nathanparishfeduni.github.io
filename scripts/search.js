@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!searchInput) return;
 
-    fetch("../../data/buildings.geojson")
+    fetch("data/buildings.geojson")
         .then(response => response.json())
         .then(data => {
 
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             result.textContent = building.name;
 
             result.addEventListener("click", () => {
-                window.location.href = "../../" + building.page;
+                window.location.href = building.page;
             });
 
             results.appendChild(result);
