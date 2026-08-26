@@ -165,18 +165,17 @@ function updateRouteFromCurrentLocation() {
         return;
     }
 
-    lastRoutePosition = L.latLng(
+    const routeStart = L.latLng(
         userLatLng.lat,
         userLatLng.lng
     );
 
-    if (routingControl) {
-        map.removeControl(routingControl);
-    }
+    lastRoutePosition = routeStart;
 
-    routingControl = L.Routing.control({
+    const newRoutingControl = L.Routing.control({
+
         waypoints: [
-            userLatLng,
+            routeStart,
             currentDestination
         ],
 
@@ -199,10 +198,29 @@ function updateRouteFromCurrentLocation() {
                 opacity: 0.9
             }]
         }
-    }).addTo(map);
+
+    });
+
+    newRoutingControl.on("routesfound", () => {
+
+        if (routingControl) {
+            map.removeControl(routingControl);
+        }
+
+        routingControl = newRoutingControl;
+
+        newRoutingControl.addTo(map);
+    });
+
+    newRoutingControl.on("routingerror", () => {
+        map.removeControl(newRoutingControl);
+    });
+
+    newRoutingControl.addTo(map);
 }
 
 function routeToBuilding(lat, lng, name) {
+
     createRoute(
         L.latLng(lat, lng),
         name
