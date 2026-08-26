@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Federation University Walking Navigation
+    </title>
+
+    <!-- LEAFLET -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet/dist/leaflet.css"
+    />
+
+    <!-- ROUTING MACHINE -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"
+    />
+
+    <!-- CUSTOM CSS -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    />
+
+</head>
+
+<body>
+
+<main>
+    <header>
+    <div class="search-bar">
+
+        <input 
+            type="text" 
+            id="pageSearch" 
+            placeholder="Search buildings..."
+        >
+
+        <div id="searchResults"></div>
+
+    </div>
+    </header>
+
+    <div id="map"></div>
+
+    <!-- LEAFLET -->
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- ROUTING MACHINE -->
+
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <!-- APP -->
+
+    <script src="app.js"></script>
+    <script src="../../scripts/search.js"></script>
+    <script src="../../scripts/footer.js"></script>
+
+
+    <!-- Bottom navigation -->
+    <footer>
+        <button class="mapButton">Map</button>
+        <button>Points of Interest</button>
+        <button id="buildingsBtn">Buildings</button>
+    </footer>
+
+    </main>
+
+</body>
+</html>

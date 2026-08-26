@@ -1,0 +1,209 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    min-height: 100%;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 1;
+}
+
+/*
+ROUTING PANEL
+*/
+
+.leaflet-routing-container {
+    background: white;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    max-height: 300px;
+
+    overflow-y: auto;
+
+    font-size: 14px;
+
+    z-index: 1;
+}
+
+/*
+MOBILE IMPROVEMENTS
+*/
+
+@media (max-width: 768px) {
+
+    .leaflet-routing-container {
+        width: 90%;
+        font-size: 12px;
+    }
+}
+
+/*
+SEARCH BAR
+*/
+
+.search-bar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+
+    width: 70%;
+
+    transform: translateX(-50%);
+
+    z-index: 1000;
+}
+
+.search-bar input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 18px;
+
+    border: 1px solid #ccc;
+    border-radius: 25px;
+
+    background: white;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+
+    outline: none;
+}
+
+#searchResults {
+    display: none;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: 5px;
+
+    background: white;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.search-result {
+    padding: 12px 18px;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+
+    background: white;
+
+    cursor: pointer;
+}
+
+.search-result:hover {
+    background: #f2f2f2;
+}
+
+/*
+BOTTOM NAVIGATION
+*/
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 60px;
+
+    background: rgb(23, 31, 146);
+    border-top: 1px solid #ccc;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+/*
+BUILDINGS PAGE
+*/
+
+main h1 {
+    margin: 0;
+    padding: 15px;
+    padding-top: 80px;
+    text-align: center;
+}
+
+main h2 {
+    margin: 0;
+    padding: 15px;
+}
+
+p {
+    margin: 0;
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+/*
+FLOOR PLAN VIEWER
+*/
+
+#imageViewer {
+    position: relative;
+
+    width: 100%;
+    height: calc(100vh - 180px);
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #eee;
+
+    touch-action: none;
+}
+
+#floorPlanContainer {
+    position: relative;
+
+    display: inline-block;
+
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#floorPlan {
+    display: block;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    user-select: none;
+
+    cursor: grabbing;
+    
+    transform-origin: center center;
+}
