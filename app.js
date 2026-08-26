@@ -51,10 +51,16 @@ const sharedRouter = L.Routing.osrmv1({
 
 let userLatLng = null;
 let userMarker = null;
-let accuracyCircle = null;
 
 let routingControl = null;
 let destinationMarker = null;
+
+let currentDestination = null;
+let currentDestinationName = "Destination";
+
+let lastRoutePosition = null;
+
+const ROUTE_UPDATE_DISTANCE = 5;
 
 //
 // ============================================
@@ -63,9 +69,13 @@ let destinationMarker = null;
 
 function updateUserLocation(lat, lng, accuracy) {
 
-    userLatLng = L.latLng(lat, lng);
+    const newPosition = L.latLng(lat, lng);
 
-    if (!campusBounds.contains(userLatLng)) return;
+    userLatLng = newPosition;
+
+    if (!campusBounds.contains(userLatLng)) {
+        return;
+    }
 
     if (!userMarker) {
 
@@ -77,18 +87,34 @@ function updateUserLocation(lat, lng, accuracy) {
             fillOpacity: 1
         }).addTo(map);
 
-
-
         map.setView(userLatLng, 18);
 
-        return;
+    } else {
+
+        userMarker.setLatLng(userLatLng);
+
     }
 
-    userMarker.setLatLng(userLatLng);
+    if (currentDestination) {
 
+        if (!lastRoutePosition) {
+
+            updateRouteFromCurrentLocation();
+
+        } else {
+
+            const distanceMoved =
+                map.distance(lastRoutePosition, userLatLng);
+
+            if (distanceMoved >= ROUTE_UPDATE_DISTANCE) {
+                updateRouteFromCurrentLocation();
+            }
+        }
+    }
 }
 
 if (navigator.geolocation) {
+
     navigator.geolocation.watchPosition(
         pos => updateUserLocation(
             pos.coords.latitude,
@@ -98,7 +124,8 @@ if (navigator.geolocation) {
         console.log,
         {
             enableHighAccuracy: true,
-            maximumAge: 1000
+            maximumAge: 1000,
+            timeout: 10000
         }
     );
 }
@@ -115,6 +142,11 @@ function createRoute(destination, name = "Destination") {
         return;
     }
 
+    currentDestination = destination;
+    currentDestinationName = name;
+
+    lastRoutePosition = null;
+
     if (destinationMarker) {
         map.removeLayer(destinationMarker);
     }
@@ -124,19 +156,42 @@ function createRoute(destination, name = "Destination") {
         .bindPopup(name)
         .openPopup();
 
+    updateRouteFromCurrentLocation();
+}
+
+function updateRouteFromCurrentLocation() {
+
+    if (!userLatLng || !currentDestination) {
+        return;
+    }
+
+    lastRoutePosition = L.latLng(
+        userLatLng.lat,
+        userLatLng.lng
+    );
+
     if (routingControl) {
         map.removeControl(routingControl);
     }
 
     routingControl = L.Routing.control({
-        waypoints: [userLatLng, destination],
+        waypoints: [
+            userLatLng,
+            currentDestination
+        ],
+
         router: sharedRouter,
+
         routeWhileDragging: false,
         addWaypoints: false,
         draggableWaypoints: false,
-        fitSelectedRoutes: true,
+
+        fitSelectedRoutes: false,
+
         show: false,
+
         createMarker: () => null,
+
         lineOptions: {
             styles: [{
                 color: "#007bff",
@@ -145,12 +200,13 @@ function createRoute(destination, name = "Destination") {
             }]
         }
     }).addTo(map);
-
-    map.closePopup();
 }
 
 function routeToBuilding(lat, lng, name) {
-    createRoute(L.latLng(lat, lng), name);
+    createRoute(
+        L.latLng(lat, lng),
+        name
+    );
 }
 
 //
@@ -173,8 +229,12 @@ fetch("data/buildings.geojson")
 
             onEachFeature(feature, layer) {
 
-                const name = feature.properties?.name || "Building";
-                const pageUrl = feature.properties?.page || "Buildings/_TEST/error.html";
+                const name =
+                    feature.properties?.name || "Building";
+
+                const pageUrl =
+                    feature.properties?.page ||
+                    "Buildings/_TEST/error.html";
 
                 layer.on("click", e => {
 
@@ -182,6 +242,7 @@ fetch("data/buildings.geojson")
 
                     layer.bindPopup(`
                         <div style="text-align:center;min-width:180px;">
+
                             <h3>${name}</h3>
 
                             <button
@@ -195,6 +256,7 @@ fetch("data/buildings.geojson")
                                 style="width:100%;padding:10px;border:none;border-radius:8px;background:#28a745;color:white;">
                                 Directions
                             </button>
+
                         </div>
                     `);
 
@@ -214,11 +276,20 @@ map.on("click", e => {
 
     const clicked = e.latlng;
 
-    const clickedBuilding = [...map._layers ? Object.values(map._layers) : []]
-        .some(layer => layer.feature && layer.getBounds?.().contains(clicked));
+    const clickedBuilding = [
+        ...map._layers
+            ? Object.values(map._layers)
+            : []
+    ].some(layer =>
+        layer.feature &&
+        layer.getBounds?.().contains(clicked)
+    );
 
     if (!clickedBuilding) {
-        createRoute(clicked, "Custom Destination");
+        createRoute(
+            clicked,
+            "Custom Destination"
+        );
     }
 });
 
@@ -228,5 +299,10 @@ map.on("click", e => {
 //
 
 map.on("drag", () => {
-    map.panInsideBounds(campusBounds, { animate: false });
+    map.panInsideBounds(
+        campusBounds,
+        {
+            animate: false
+        }
+    );
 });
