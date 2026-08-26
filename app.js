@@ -85,8 +85,7 @@ function updateUserLocation(lat, lng, accuracy) {
     }
 
     userMarker.setLatLng(userLatLng);
-    accuracyCircle.setLatLng(userLatLng);
-    accuracyCircle.setRadius(accuracy);
+
 }
 
 if (navigator.geolocation) {
