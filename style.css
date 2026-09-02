@@ -203,6 +203,9 @@ FLOOR PLAN VIEWER
     max-height: none;
 
     user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-user-drag: none;
 
     cursor: default;
 
