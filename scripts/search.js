@@ -45,6 +45,13 @@ document.addEventListener(
             );
 
 
+        const projectRoot =
+            new URL(
+                "../",
+                scriptUrl
+            );
+
+
         const dataUrl =
             new URL(
                 "../data/buildings.geojson",
@@ -232,8 +239,14 @@ document.addEventListener(
                             "click",
                             () => {
 
+                                const buildingUrl =
+                                    new URL(
+                                        building.page,
+                                        projectRoot
+                                    );
+
                                 window.location.href =
-                                    building.page;
+                                    buildingUrl.href;
 
                             }
                         );
