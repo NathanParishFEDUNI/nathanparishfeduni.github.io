@@ -17,6 +17,12 @@ let startY = 0;
 
 let dragging = false;
 
+let pinchStartDistance = 0;
+let pinchStartScale = 1;
+
+let pinchStartX = 0;
+let pinchStartY = 0;
+
 
 function updateImage() {
 
@@ -109,8 +115,11 @@ function calculateMinScale() {
         !imageWidth ||
         !imageHeight
     ) {
+
         minScale = 1;
+
         return;
+
     }
 
 
@@ -150,7 +159,9 @@ function fitImage() {
         !imageWidth ||
         !imageHeight
     ) {
+
         return;
+
     }
 
 
@@ -197,7 +208,9 @@ function zoomAt(
     if (
         newScale === oldScale
     ) {
+
         return;
+
     }
 
 
@@ -244,6 +257,52 @@ function zoomAt(
 }
 
 
+function getPointerDistance(
+    pointer1,
+    pointer2
+) {
+
+    const dx =
+        pointer2.clientX -
+        pointer1.clientX;
+
+    const dy =
+        pointer2.clientY -
+        pointer1.clientY;
+
+
+    return Math.sqrt(
+        dx * dx +
+        dy * dy
+    );
+
+}
+
+
+function getPointerCenter(
+    pointer1,
+    pointer2
+) {
+
+    return {
+
+        x:
+            (pointer1.clientX +
+                pointer2.clientX) / 2,
+
+        y:
+            (pointer1.clientY +
+                pointer2.clientY) / 2
+
+    };
+
+}
+
+
+const activePointers =
+    new Map();
+
+
 imageViewer.addEventListener(
     "wheel",
     event => {
@@ -274,10 +333,67 @@ imageViewer.addEventListener(
     "pointerdown",
     event => {
 
+        activePointers.set(
+            event.pointerId,
+            event
+        );
+
+
         if (
+            activePointers.size === 2
+        ) {
+
+            dragging = false;
+
+
+            const pointers =
+                Array.from(
+                    activePointers.values()
+                );
+
+
+            pinchStartDistance =
+                getPointerDistance(
+                    pointers[0],
+                    pointers[1]
+                );
+
+
+            pinchStartScale =
+                scale;
+
+
+            const center =
+                getPointerCenter(
+                    pointers[0],
+                    pointers[1]
+                );
+
+
+            pinchStartX =
+                center.x;
+
+            pinchStartY =
+                center.y;
+
+
+            imageViewer.setPointerCapture(
+                event.pointerId
+            );
+
+
+            return;
+
+        }
+
+
+        if (
+            activePointers.size !== 1 ||
             scale <= minScale
         ) {
+
             return;
+
         }
 
 
@@ -310,8 +426,87 @@ imageViewer.addEventListener(
     "pointermove",
     event => {
 
-        if (!dragging) {
+        if (
+            activePointers.has(
+                event.pointerId
+            )
+        ) {
+
+            activePointers.set(
+                event.pointerId,
+                event
+            );
+
+        }
+
+
+        if (
+            activePointers.size === 2
+        ) {
+
+            const pointers =
+                Array.from(
+                    activePointers.values()
+                );
+
+
+            const distance =
+                getPointerDistance(
+                    pointers[0],
+                    pointers[1]
+                );
+
+
+            if (
+                !pinchStartDistance
+            ) {
+
+                return;
+
+            }
+
+
+            const scaleRatio =
+                distance /
+                pinchStartDistance;
+
+
+            const newScale =
+                Math.max(
+                    minScale,
+                    Math.min(
+                        pinchStartScale *
+                        scaleRatio,
+                        maxScale
+                    )
+                );
+
+
+            const center =
+                getPointerCenter(
+                    pointers[0],
+                    pointers[1]
+                );
+
+
+            zoomAt(
+                newScale,
+                center.x,
+                center.y
+            );
+
+
             return;
+
+        }
+
+
+        if (
+            !dragging
+        ) {
+
+            return;
+
         }
 
 
@@ -333,47 +528,79 @@ imageViewer.addEventListener(
 );
 
 
-function stopDragging(event) {
+function stopPointer(
+    event
+) {
 
-    if (!dragging) {
-        return;
-    }
-
-
-    dragging = false;
+    activePointers.delete(
+        event.pointerId
+    );
 
 
     if (
-        event?.pointerId !== undefined &&
-        imageViewer.hasPointerCapture(
-            event.pointerId
-        )
+        activePointers.size < 2
     ) {
 
-        imageViewer.releasePointerCapture(
-            event.pointerId
-        );
+        pinchStartDistance = 0;
 
     }
 
 
-    image.style.cursor =
-        scale > minScale
-            ? "grab"
-            : "default";
+    if (
+        activePointers.size === 0
+    ) {
+
+        dragging = false;
+
+
+        if (
+            imageViewer.hasPointerCapture(
+                event.pointerId
+            )
+        ) {
+
+            imageViewer.releasePointerCapture(
+                event.pointerId
+            );
+
+        }
+
+
+        image.style.cursor =
+            scale > minScale
+                ? "grab"
+                : "default";
+
+    }
 
 }
 
 
 imageViewer.addEventListener(
     "pointerup",
-    stopDragging
+    stopPointer
 );
 
 
 imageViewer.addEventListener(
     "pointercancel",
-    stopDragging
+    stopPointer
+);
+
+
+imageViewer.addEventListener(
+    "pointerleave",
+    event => {
+
+        if (
+            event.pointerType === "mouse"
+        ) {
+
+            stopPointer(event);
+
+        }
+
+    }
 );
 
 
@@ -411,7 +638,9 @@ image.addEventListener(
 );
 
 
-if (image.complete) {
+if (
+    image.complete
+) {
 
     fitImage();
 
