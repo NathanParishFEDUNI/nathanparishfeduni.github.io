@@ -37,7 +37,7 @@ document.addEventListener(
 
                             window.location.href =
                                 new URL(
-                                    "wayfinderapp.html",
+                                    "index.html",
                                     projectRoot
                                 ).href;
 
