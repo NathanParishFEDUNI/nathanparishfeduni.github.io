@@ -11,20 +11,17 @@ document.addEventListener(
             return;
         }
 
-
         const scriptUrl =
             new URL(
                 script.src,
                 document.baseURI
             );
 
-
         const projectRoot =
             new URL(
                 "../",
                 scriptUrl
             );
-
 
         document
             .querySelectorAll(".mapButton")
@@ -47,7 +44,6 @@ document.addEventListener(
                 }
             );
 
-
         document
             .getElementById("buildingsBtn")
             ?.addEventListener(
@@ -65,3 +61,4 @@ document.addEventListener(
 
     }
 );
+```
