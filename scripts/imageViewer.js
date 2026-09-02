@@ -12,16 +12,21 @@ let maxScale = 5;
 let positionX = 0;
 let positionY = 0;
 
-let startX = 0;
-let startY = 0;
-
 let dragging = false;
+
+let dragStartX = 0;
+let dragStartY = 0;
+
+const pointers = new Map();
 
 let pinchStartDistance = 0;
 let pinchStartScale = 1;
 
-let pinchStartX = 0;
-let pinchStartY = 0;
+let pinchStartCenterX = 0;
+let pinchStartCenterY = 0;
+
+let pinchStartPositionX = 0;
+let pinchStartPositionY = 0;
 
 
 function updateImage() {
@@ -214,36 +219,36 @@ function zoomAt(
     }
 
 
-    const viewerRect =
+    const rect =
         imageViewer.getBoundingClientRect();
 
 
     const centerX =
         pointerX -
-        viewerRect.left -
-        viewerRect.width / 2;
+        rect.left -
+        rect.width / 2;
 
 
     const centerY =
         pointerY -
-        viewerRect.top -
-        viewerRect.height / 2;
+        rect.top -
+        rect.height / 2;
 
 
-    const scaleRatio =
+    const ratio =
         newScale / oldScale;
 
 
     positionX =
         centerX -
         (centerX - positionX) *
-        scaleRatio;
+        ratio;
 
 
     positionY =
         centerY -
         (centerY - positionY) *
-        scaleRatio;
+        ratio;
 
 
     scale =
@@ -257,7 +262,7 @@ function zoomAt(
 }
 
 
-function getPointerDistance(
+function getDistance(
     pointer1,
     pointer2
 ) {
@@ -279,7 +284,7 @@ function getPointerDistance(
 }
 
 
-function getPointerCenter(
+function getCenter(
     pointer1,
     pointer2
 ) {
@@ -299,8 +304,65 @@ function getPointerCenter(
 }
 
 
-const activePointers =
-    new Map();
+function startPinch() {
+
+    const activePointers =
+        Array.from(
+            pointers.values()
+        );
+
+
+    if (
+        activePointers.length !== 2
+    ) {
+
+        return;
+
+    }
+
+
+    const pointer1 =
+        activePointers[0];
+
+    const pointer2 =
+        activePointers[1];
+
+
+    pinchStartDistance =
+        getDistance(
+            pointer1,
+            pointer2
+        );
+
+
+    pinchStartScale =
+        scale;
+
+
+    const center =
+        getCenter(
+            pointer1,
+            pointer2
+        );
+
+
+    pinchStartCenterX =
+        center.x;
+
+    pinchStartCenterY =
+        center.y;
+
+
+    pinchStartPositionX =
+        positionX;
+
+    pinchStartPositionY =
+        positionY;
+
+
+    dragging = false;
+
+}
 
 
 imageViewer.addEventListener(
@@ -310,14 +372,14 @@ imageViewer.addEventListener(
         event.preventDefault();
 
 
-        const zoomFactor =
+        const factor =
             event.deltaY < 0
                 ? 1.1
                 : 1 / 1.1;
 
 
         zoomAt(
-            scale * zoomFactor,
+            scale * factor,
             event.clientX,
             event.clientY
         );
@@ -333,54 +395,28 @@ imageViewer.addEventListener(
     "pointerdown",
     event => {
 
-        activePointers.set(
+        pointers.set(
             event.pointerId,
-            event
+            {
+                clientX:
+                    event.clientX,
+
+                clientY:
+                    event.clientY
+            }
+        );
+
+
+        imageViewer.setPointerCapture(
+            event.pointerId
         );
 
 
         if (
-            activePointers.size === 2
+            pointers.size === 2
         ) {
 
-            dragging = false;
-
-
-            const pointers =
-                Array.from(
-                    activePointers.values()
-                );
-
-
-            pinchStartDistance =
-                getPointerDistance(
-                    pointers[0],
-                    pointers[1]
-                );
-
-
-            pinchStartScale =
-                scale;
-
-
-            const center =
-                getPointerCenter(
-                    pointers[0],
-                    pointers[1]
-                );
-
-
-            pinchStartX =
-                center.x;
-
-            pinchStartY =
-                center.y;
-
-
-            imageViewer.setPointerCapture(
-                event.pointerId
-            );
-
+            startPinch();
 
             return;
 
@@ -388,7 +424,6 @@ imageViewer.addEventListener(
 
 
         if (
-            activePointers.size !== 1 ||
             scale <= minScale
         ) {
 
@@ -400,19 +435,14 @@ imageViewer.addEventListener(
         dragging = true;
 
 
-        startX =
+        dragStartX =
             event.clientX -
             positionX;
 
 
-        startY =
+        dragStartY =
             event.clientY -
             positionY;
-
-
-        imageViewer.setPointerCapture(
-            event.pointerId
-        );
 
 
         image.style.cursor =
@@ -427,74 +457,148 @@ imageViewer.addEventListener(
     event => {
 
         if (
-            activePointers.has(
+            !pointers.has(
                 event.pointerId
             )
         ) {
 
-            activePointers.set(
-                event.pointerId,
-                event
-            );
+            return;
 
         }
 
 
+        pointers.set(
+            event.pointerId,
+            {
+                clientX:
+                    event.clientX,
+
+                clientY:
+                    event.clientY
+            }
+        );
+
+
         if (
-            activePointers.size === 2
+            pointers.size === 2
         ) {
 
-            const pointers =
+            const activePointers =
                 Array.from(
-                    activePointers.values()
+                    pointers.values()
                 );
 
 
+            const pointer1 =
+                activePointers[0];
+
+            const pointer2 =
+                activePointers[1];
+
+
             const distance =
-                getPointerDistance(
-                    pointers[0],
-                    pointers[1]
+                getDistance(
+                    pointer1,
+                    pointer2
+                );
+
+
+            const center =
+                getCenter(
+                    pointer1,
+                    pointer2
                 );
 
 
             if (
-                !pinchStartDistance
+                pinchStartDistance <= 0
             ) {
+
+                startPinch();
 
                 return;
 
             }
 
 
-            const scaleRatio =
+            const distanceRatio =
                 distance /
                 pinchStartDistance;
 
 
-            const newScale =
+            let newScale =
+                pinchStartScale *
+                distanceRatio;
+
+
+            newScale =
                 Math.max(
                     minScale,
                     Math.min(
-                        pinchStartScale *
-                        scaleRatio,
+                        newScale,
                         maxScale
                     )
                 );
 
 
-            const center =
-                getPointerCenter(
-                    pointers[0],
-                    pointers[1]
-                );
+            const rect =
+                imageViewer.getBoundingClientRect();
 
 
-            zoomAt(
-                newScale,
-                center.x,
-                center.y
-            );
+            const startCenterX =
+                pinchStartCenterX -
+                rect.left -
+                rect.width / 2;
 
+
+            const startCenterY =
+                pinchStartCenterY -
+                rect.top -
+                rect.height / 2;
+
+
+            const currentCenterX =
+                center.x -
+                rect.left -
+                rect.width / 2;
+
+
+            const currentCenterY =
+                center.y -
+                rect.top -
+                rect.height / 2;
+
+
+            const scaleRatio =
+                newScale /
+                pinchStartScale;
+
+
+            positionX =
+                currentCenterX -
+                (
+                    startCenterX -
+                    pinchStartPositionX
+                ) *
+                scaleRatio;
+
+
+            positionY =
+                currentCenterY -
+                (
+                    startCenterY -
+                    pinchStartPositionY
+                ) *
+                scaleRatio;
+
+
+            scale =
+                newScale;
+
+
+            constrainPosition();
+
+            updateImage();
 
             return;
 
@@ -512,12 +616,12 @@ imageViewer.addEventListener(
 
         positionX =
             event.clientX -
-            startX;
+            dragStartX;
 
 
         positionY =
             event.clientY -
-            startY;
+            dragStartY;
 
 
         constrainPosition();
@@ -528,17 +632,15 @@ imageViewer.addEventListener(
 );
 
 
-function stopPointer(
-    event
-) {
+function stopPointer(event) {
 
-    activePointers.delete(
+    pointers.delete(
         event.pointerId
     );
 
 
     if (
-        activePointers.size < 2
+        pointers.size < 2
     ) {
 
         pinchStartDistance = 0;
@@ -547,29 +649,29 @@ function stopPointer(
 
 
     if (
-        activePointers.size === 0
+        pointers.size === 0
     ) {
 
         dragging = false;
-
-
-        if (
-            imageViewer.hasPointerCapture(
-                event.pointerId
-            )
-        ) {
-
-            imageViewer.releasePointerCapture(
-                event.pointerId
-            );
-
-        }
 
 
         image.style.cursor =
             scale > minScale
                 ? "grab"
                 : "default";
+
+    }
+
+
+    if (
+        imageViewer.hasPointerCapture(
+            event.pointerId
+        )
+    ) {
+
+        imageViewer.releasePointerCapture(
+            event.pointerId
+        );
 
     }
 
@@ -585,22 +687,6 @@ imageViewer.addEventListener(
 imageViewer.addEventListener(
     "pointercancel",
     stopPointer
-);
-
-
-imageViewer.addEventListener(
-    "pointerleave",
-    event => {
-
-        if (
-            event.pointerType === "mouse"
-        ) {
-
-            stopPointer(event);
-
-        }
-
-    }
 );
 
 
