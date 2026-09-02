@@ -11,7 +11,7 @@
         "building": "university",
         "name": "C Building Geoffrey Blainey Auditorium",
         "source": "Bing",
-        "page": "Buildings/C_Building/Level_0.html"
+        "page": "buildings/C_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -106,7 +106,7 @@
         "description": "Swimming Pool, Gym",
         "name": "P Building",
         "source": "Bing",
-        "page": "Buildings/P_Building/Level_1.html"
+        "page": "buildings/P_Building/Level_1.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -245,7 +245,7 @@
         "layer": "1",
         "name": "B Building",
         "source": "Bing",
-        "page": "Buildings/B_Building/Level_0.html"
+        "page": "buildings/B_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -386,7 +386,7 @@
         "name": "L Building: E J Barker Library",
         "opening_hours": "Mo-Fr 09:00-17:00",
         "source": "Bing",
-        "page": "Buildings/L_Building/Level_0.html"
+        "page": "buildings/L_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -496,7 +496,7 @@
         "building": "university",
         "name": "U Building: Albert Coates Complex",
         "source": "Bing",
-        "page": "Buildings/U_Building/Level_0.html"
+        "page": "buildings/U_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -618,7 +618,7 @@
         "building": "university",
         "name": "E Building",
         "source": "Bing",
-        "page": "Buildings/E_Building/Level_1.html"
+        "page": "buildings/E_Building/Level_1.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -709,7 +709,7 @@
         "layer": "1",
         "name": "K Building Children's Centre",
         "source": "Bing",
-        "page": "Buildings/K_Building/Level_1.html"
+        "page": "buildings/K_Building/Level_1.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -807,7 +807,7 @@
         "building": "university",
         "name": "F Building",
         "source": "Bing",
-        "page": "Buildings/F_Building/Level_2.html"
+        "page": "buildings/F_Building/Level_2.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -929,7 +929,7 @@
         "building": "yes",
         "name": "G Building - M B John Building",
         "source": "Bing",
-        "page": "Buildings/G_Building/Level_2.html"
+        "page": "buildings/G_Building/Level_2.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -1213,7 +1213,7 @@
         "building": "university",
         "name": "A Building",
         "source": "Bing",
-        "page": "Buildings/A_Building/Level_0.html"
+        "page": "buildings/A_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -3554,7 +3554,7 @@
         "building": "university",
         "name": "Q Building - Tin Shed",
         "source": "Bing",
-        "page": "Buildings/Q_Building/Q1_Level_6.html"
+        "page": "buildings/Q_Building/Q1_Level_6.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -3647,7 +3647,7 @@
         "@id": "way/243724098",
         "building": "university",
         "name": "Y Building", 
-        "page": "Buildings/Y_Building/Level_0_East.html"
+        "page": "buildings/Y_Building/Level_0_East.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -3772,7 +3772,7 @@
         "@id": "way/313510339",
         "building": "university",
         "name": "H Building",
-        "page": "Buildings/H_Building/Level_1.html"
+        "page": "buildings/H_Building/Level_1.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -3937,7 +3937,7 @@
         "@id": "way/313510340",
         "building": "university",
         "name": "S Building",
-        "page": "Buildings/S_Building/Level_0.html"
+        "page": "buildings/S_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -4111,7 +4111,7 @@
         "@id": "way/313510402",
         "building": "university",
         "name": "Q Building",
-        "page": "Buildings/Q_Building/Q1_Level_6.html"
+        "page": "buildings/Q_Building/Q1_Level_6.html"
       },
       "geometry": {
         "type": "Polygon",
@@ -4156,7 +4156,7 @@
         "@id": "way/313510596",
         "building": "university",
         "name": "T Building",
-        "page": "Buildings/T_Building/Level_0.html",
+        "page": "buildings/T_Building/Level_0.html",
         "roomPrefix": "T[0-3]",
         "roomPattern": "^T[0-3]\\d{2}$"
       },
@@ -4287,7 +4287,7 @@
         "@id": "way/313510597",
         "building": "university",
         "name": "D Building",
-        "page": "Buildings/D_Building/Level_0.html"
+        "page": "buildings/D_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
