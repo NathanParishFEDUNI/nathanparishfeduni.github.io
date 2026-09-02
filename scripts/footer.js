@@ -2,27 +2,6 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        const script =
-            document.querySelector(
-                'script[src$="scripts/footer.js"]'
-            );
-
-        if (!script) {
-            return;
-        }
-
-        const scriptUrl =
-            new URL(
-                script.src,
-                document.baseURI
-            );
-
-        const projectRoot =
-            new URL(
-                "../",
-                scriptUrl
-            );
-
         document
             .querySelectorAll(".mapButton")
             .forEach(
@@ -30,12 +9,15 @@ document.addEventListener(
 
                     button.addEventListener(
                         "click",
-                        () => {
+                        event => {
+
+                            event.preventDefault();
 
                             window.location.href =
                                 new URL(
                                     "index.html",
-                                    projectRoot
+                                    window.location.origin +
+                                    window.location.pathname
                                 ).href;
 
                         }
@@ -48,12 +30,15 @@ document.addEventListener(
             .getElementById("buildingsBtn")
             ?.addEventListener(
                 "click",
-                () => {
+                event => {
+
+                    event.preventDefault();
 
                     window.location.href =
                         new URL(
                             "buildings.html",
-                            projectRoot
+                            window.location.origin +
+                            window.location.pathname
                         ).href;
 
                 }
@@ -61,4 +46,4 @@ document.addEventListener(
 
     }
 );
-```
+
