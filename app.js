@@ -135,6 +135,8 @@ if (navigator.geolocation) {
 // ROUTING
 //
 
+let routeRequestId = 0;
+
 function createRoute(destination, name = "Destination") {
 
     if (!userLatLng) {
@@ -172,6 +174,10 @@ function updateRouteFromCurrentLocation() {
 
     lastRoutePosition = routeStart;
 
+    routeRequestId++;
+
+    const requestId = routeRequestId;
+
     const newRoutingControl = L.Routing.control({
 
         waypoints: [
@@ -203,16 +209,25 @@ function updateRouteFromCurrentLocation() {
 
     newRoutingControl.on("routesfound", () => {
 
+        if (requestId !== routeRequestId) {
+            map.removeControl(newRoutingControl);
+            return;
+        }
+
         if (routingControl) {
             map.removeControl(routingControl);
         }
 
         routingControl = newRoutingControl;
-
-        newRoutingControl.addTo(map);
     });
 
     newRoutingControl.on("routingerror", () => {
+
+        if (requestId !== routeRequestId) {
+            map.removeControl(newRoutingControl);
+            return;
+        }
+
         map.removeControl(newRoutingControl);
     });
 
