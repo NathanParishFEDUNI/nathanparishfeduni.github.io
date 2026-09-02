@@ -1,53 +1,45 @@
-﻿//
-// ============================================
-// CAMPUS BOUNDS
-//
-
-const southWest = L.latLng(-37.63012, 143.88818);
+﻿const southWest = L.latLng(-37.63012, 143.88818);
 const northEast = L.latLng(-37.62208, 143.89760);
-const campusBounds = L.latLngBounds(southWest, northEast);
 
-//
-// ============================================
-// MAP INIT
-//
+const campusBounds = L.latLngBounds(
+    southWest,
+    northEast
+);
 
 const map = L.map("map", {
+
     center: [
         (southWest.lat + northEast.lat) / 2,
         (southWest.lng + northEast.lng) / 2
     ],
+
     zoom: 17,
+
     minZoom: 16,
     maxZoom: 18,
+
     maxBounds: campusBounds,
     maxBoundsViscosity: 1.0
+
 });
 
 map.attributionControl.setPrefix(false);
 
-//
-// ============================================
-// BASE MAP
-//
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution: "&copy; OpenStreetMap contributors"
+    }
+).addTo(map);
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "&copy; OpenStreetMap contributors"
-}).addTo(map);
-
-//
-// ============================================
-// ROUTER
-//
 
 const sharedRouter = L.Routing.osrmv1({
-    serviceUrl: "https://routing.openstreetmap.de/routed-foot/route/v1"
+
+    serviceUrl:
+        "https://routing.openstreetmap.de/routed-foot/route/v1"
+
 });
 
-//
-// ============================================
-// STATE
-//
 
 let userLatLng = null;
 let userMarker = null;
@@ -60,32 +52,46 @@ let currentDestinationName = "Destination";
 
 let lastRoutePosition = null;
 
-const ROUTE_UPDATE_DISTANCE = 5;
+let routeRequestId = 0;
+let routeRequestInProgress = false;
 
-//
-// ============================================
-// USER LOCATION
-//
+const ROUTE_UPDATE_DISTANCE = 5;
+const MAX_GPS_ACCURACY = 50;
+
 
 function updateUserLocation(lat, lng, accuracy) {
 
     const newPosition = L.latLng(lat, lng);
 
-    userLatLng = newPosition;
-
-    if (!campusBounds.contains(userLatLng)) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
         return;
     }
 
+    if (
+        Number.isFinite(accuracy) &&
+        accuracy > MAX_GPS_ACCURACY
+    ) {
+        return;
+    }
+
+    if (!campusBounds.contains(newPosition)) {
+        return;
+    }
+
+    userLatLng = newPosition;
+
     if (!userMarker) {
 
-        userMarker = L.circleMarker(userLatLng, {
-            radius: 10,
-            fillColor: "#007bff",
-            color: "#fff",
-            weight: 3,
-            fillOpacity: 1
-        }).addTo(map);
+        userMarker = L.circleMarker(
+            userLatLng,
+            {
+                radius: 10,
+                fillColor: "#007bff",
+                color: "#fff",
+                weight: 3,
+                fillOpacity: 1
+            }
+        ).addTo(map);
 
         map.setView(userLatLng, 18);
 
@@ -95,53 +101,88 @@ function updateUserLocation(lat, lng, accuracy) {
 
     }
 
-    if (currentDestination) {
-
-        if (!lastRoutePosition) {
-
-            updateRouteFromCurrentLocation();
-
-        } else {
-
-            const distanceMoved =
-                map.distance(lastRoutePosition, userLatLng);
-
-            if (distanceMoved >= ROUTE_UPDATE_DISTANCE) {
-                updateRouteFromCurrentLocation();
-            }
-        }
+    if (!currentDestination) {
+        return;
     }
+
+    if (!lastRoutePosition) {
+
+        updateRouteFromCurrentLocation();
+        return;
+
+    }
+
+    const distanceMoved =
+        map.distance(
+            lastRoutePosition,
+            userLatLng
+        );
+
+    if (
+        distanceMoved >= ROUTE_UPDATE_DISTANCE &&
+        !routeRequestInProgress
+    ) {
+
+        updateRouteFromCurrentLocation();
+
+    }
+
 }
+
 
 if (navigator.geolocation) {
 
     navigator.geolocation.watchPosition(
-        pos => updateUserLocation(
-            pos.coords.latitude,
-            pos.coords.longitude,
-            pos.coords.accuracy
-        ),
-        console.log,
+
+        position => {
+
+            updateUserLocation(
+                position.coords.latitude,
+                position.coords.longitude,
+                position.coords.accuracy
+            );
+
+        },
+
+        error => {
+
+            console.warn(
+                "GPS error:",
+                error.message
+            );
+
+        },
+
         {
             enableHighAccuracy: true,
             maximumAge: 1000,
             timeout: 10000
         }
+
     );
+
+} else {
+
+    console.warn(
+        "Geolocation is not supported by this browser."
+    );
+
 }
 
-//
-// ============================================
-// ROUTING
-//
 
-let routeRequestId = 0;
-
-function createRoute(destination, name = "Destination") {
+function createRoute(
+    destination,
+    name = "Destination"
+) {
 
     if (!userLatLng) {
-        alert("Waiting for GPS location...");
+
+        alert(
+            "Waiting for GPS location..."
+        );
+
         return;
+
     }
 
     currentDestination = destination;
@@ -149,193 +190,447 @@ function createRoute(destination, name = "Destination") {
 
     lastRoutePosition = null;
 
+    routeRequestId++;
+
+    routeRequestInProgress = false;
+
     if (destinationMarker) {
-        map.removeLayer(destinationMarker);
+
+        map.removeLayer(
+            destinationMarker
+        );
+
     }
 
-    destinationMarker = L.marker(destination)
-        .addTo(map)
-        .bindPopup(name)
-        .openPopup();
+    destinationMarker =
+        L.marker(destination)
+            .addTo(map)
+            .bindPopup(name)
+            .openPopup();
+
+    if (routingControl) {
+
+        map.removeControl(
+            routingControl
+        );
+
+        routingControl = null;
+
+    }
 
     updateRouteFromCurrentLocation();
+
 }
+
 
 function updateRouteFromCurrentLocation() {
 
-    if (!userLatLng || !currentDestination) {
+    if (
+        !userLatLng ||
+        !currentDestination ||
+        routeRequestInProgress
+    ) {
         return;
     }
 
-    const routeStart = L.latLng(
-        userLatLng.lat,
-        userLatLng.lng
+    const routeStart =
+        L.latLng(
+            userLatLng.lat,
+            userLatLng.lng
+        );
+
+    const requestId =
+        ++routeRequestId;
+
+    routeRequestInProgress = true;
+
+    const newRoutingControl =
+        L.Routing.control({
+
+            waypoints: [
+                routeStart,
+                currentDestination
+            ],
+
+            router: sharedRouter,
+
+            routeWhileDragging: false,
+
+            addWaypoints: false,
+
+            draggableWaypoints: false,
+
+            fitSelectedRoutes: false,
+
+            show: false,
+
+            createMarker: () => null,
+
+            lineOptions: {
+
+                styles: [
+                    {
+                        color: "#007bff",
+                        weight: 6,
+                        opacity: 0.9
+                    }
+                ]
+
+            }
+
+        });
+
+
+    newRoutingControl.on(
+        "routesfound",
+        () => {
+
+            if (requestId !== routeRequestId) {
+
+                map.removeControl(
+                    newRoutingControl
+                );
+
+                return;
+
+            }
+
+            if (routingControl) {
+
+                map.removeControl(
+                    routingControl
+                );
+
+            }
+
+            routingControl =
+                newRoutingControl;
+
+            lastRoutePosition =
+                routeStart;
+
+            routeRequestInProgress =
+                false;
+
+        }
     );
 
-    lastRoutePosition = routeStart;
 
-    routeRequestId++;
+    newRoutingControl.on(
+        "routingerror",
+        error => {
 
-    const requestId = routeRequestId;
+            if (
+                requestId === routeRequestId
+            ) {
 
-    const newRoutingControl = L.Routing.control({
+                console.warn(
+                    "Routing error:",
+                    error.error
+                );
 
-        waypoints: [
-            routeStart,
-            currentDestination
-        ],
+                routeRequestInProgress =
+                    false;
 
-        router: sharedRouter,
+            }
 
-        routeWhileDragging: false,
-        addWaypoints: false,
-        draggableWaypoints: false,
+            map.removeControl(
+                newRoutingControl
+            );
 
-        fitSelectedRoutes: false,
-
-        show: false,
-
-        createMarker: () => null,
-
-        lineOptions: {
-            styles: [{
-                color: "#007bff",
-                weight: 6,
-                opacity: 0.9
-            }]
         }
+    );
 
-    });
-
-    newRoutingControl.on("routesfound", () => {
-
-        if (requestId !== routeRequestId) {
-            map.removeControl(newRoutingControl);
-            return;
-        }
-
-        if (routingControl) {
-            map.removeControl(routingControl);
-        }
-
-        routingControl = newRoutingControl;
-    });
-
-    newRoutingControl.on("routingerror", () => {
-
-        if (requestId !== routeRequestId) {
-            map.removeControl(newRoutingControl);
-            return;
-        }
-
-        map.removeControl(newRoutingControl);
-    });
 
     newRoutingControl.addTo(map);
+
 }
 
-function routeToBuilding(lat, lng, name) {
+
+function routeToBuilding(
+    lat,
+    lng,
+    name
+) {
 
     createRoute(
         L.latLng(lat, lng),
         name
     );
+
 }
 
-//
-// ============================================
-// BUILDINGS
-//
 
-fetch("data/buildings.geojson")
-    .then(res => res.json())
+let buildingLayer = null;
+
+
+fetch(
+    "data/buildings.geojson"
+)
+    .then(response => {
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Failed to load buildings.geojson: ${response.status}`
+            );
+
+        }
+
+        return response.json();
+
+    })
     .then(data => {
 
-        L.geoJSON(data, {
+        buildingLayer =
+            L.geoJSON(
+                data,
+                {
 
-            style: () => ({
-                color: "#007bff",
-                weight: 2,
-                fillColor: "#007bff",
-                fillOpacity: 0.2
-            }),
+                    style: () => ({
 
-            onEachFeature(feature, layer) {
+                        color: "#007bff",
 
-                const name =
-                    feature.properties?.name || "Building";
+                        weight: 2,
 
-                const pageUrl =
-                    feature.properties?.page ||
-                    "Buildings/_TEST/error.html";
+                        fillColor: "#007bff",
 
-                layer.on("click", e => {
+                        fillOpacity: 0.2
 
-                    const clicked = e.latlng;
+                    }),
 
-                    layer.bindPopup(`
-                        <div style="text-align:center;min-width:180px;">
+                    onEachFeature: (
+                        feature,
+                        layer
+                    ) => {
 
-                            <h3>${name}</h3>
+                        const name =
+                            feature.properties?.name ||
+                            "Building";
 
-                            <button
-                                onclick="window.location.href='${pageUrl}'"
-                                style="width:100%;margin-bottom:10px;padding:10px;border:none;border-radius:8px;background:#007bff;color:white;">
-                                Open Building
-                            </button>
+                        const pageUrl =
+                            feature.properties?.page ||
+                            null;
 
-                            <button
-                                onclick="routeToBuilding(${clicked.lat},${clicked.lng},'${name}')"
-                                style="width:100%;padding:10px;border:none;border-radius:8px;background:#28a745;color:white;">
-                                Directions
-                            </button>
 
-                        </div>
-                    `);
+                        layer.on(
+                            "click",
+                            event => {
 
-                    layer.openPopup(clicked);
-                });
-            }
+                                const clicked =
+                                    event.latlng;
 
-        }).addTo(map);
+
+                                const popup =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+                                popup.style.textAlign =
+                                    "center";
+
+                                popup.style.minWidth =
+                                    "180px";
+
+
+                                const heading =
+                                    document.createElement(
+                                        "h3"
+                                    );
+
+                                heading.textContent =
+                                    name;
+
+
+                                const openButton =
+                                    document.createElement(
+                                        "button"
+                                    );
+
+                                openButton.textContent =
+                                    "Open Building";
+
+                                openButton.style.width =
+                                    "100%";
+
+                                openButton.style.marginBottom =
+                                    "10px";
+
+                                openButton.style.padding =
+                                    "10px";
+
+                                openButton.style.border =
+                                    "none";
+
+                                openButton.style.borderRadius =
+                                    "8px";
+
+                                openButton.style.background =
+                                    "#007bff";
+
+                                openButton.style.color =
+                                    "white";
+
+
+                                if (pageUrl) {
+
+                                    openButton.addEventListener(
+                                        "click",
+                                        () => {
+
+                                            window.location.href =
+                                                pageUrl;
+
+                                        }
+                                    );
+
+                                } else {
+
+                                    openButton.disabled =
+                                        true;
+
+                                }
+
+
+                                const directionsButton =
+                                    document.createElement(
+                                        "button"
+                                    );
+
+                                directionsButton.textContent =
+                                    "Directions";
+
+                                directionsButton.style.width =
+                                    "100%";
+
+                                directionsButton.style.padding =
+                                    "10px";
+
+                                directionsButton.style.border =
+                                    "none";
+
+                                directionsButton.style.borderRadius =
+                                    "8px";
+
+                                directionsButton.style.background =
+                                    "#28a745";
+
+                                directionsButton.style.color =
+                                    "white";
+
+
+                                directionsButton.addEventListener(
+                                    "click",
+                                    () => {
+
+                                        routeToBuilding(
+                                            clicked.lat,
+                                            clicked.lng,
+                                            name
+                                        );
+
+                                    }
+                                );
+
+
+                                popup.appendChild(
+                                    heading
+                                );
+
+                                popup.appendChild(
+                                    openButton
+                                );
+
+                                popup.appendChild(
+                                    directionsButton
+                                );
+
+
+                                layer
+                                    .bindPopup(popup)
+                                    .openPopup(
+                                        clicked
+                                    );
+
+                            }
+                        );
+
+                    }
+
+                }
+            )
+            .addTo(map);
+
+    })
+    .catch(error => {
+
+        console.error(
+            "Building data error:",
+            error
+        );
+
     });
 
-//
-// ============================================
-// MAP CLICK
-//
 
-map.on("click", e => {
+map.on(
+    "click",
+    event => {
 
-    const clicked = e.latlng;
+        const clicked =
+            event.latlng;
 
-    const clickedBuilding = [
-        ...map._layers
-            ? Object.values(map._layers)
-            : []
-    ].some(layer =>
-        layer.feature &&
-        layer.getBounds?.().contains(clicked)
-    );
+        let clickedBuilding = false;
 
-    if (!clickedBuilding) {
-        createRoute(
-            clicked,
-            "Custom Destination"
-        );
-    }
-});
+        if (buildingLayer) {
 
-//
-// ============================================
-// BOUNDARY LOCK
-//
+            buildingLayer.eachLayer(
+                layer => {
 
-map.on("drag", () => {
-    map.panInsideBounds(
-        campusBounds,
-        {
-            animate: false
+                    if (
+                        clickedBuilding ||
+                        !layer.getBounds
+                    ) {
+                        return;
+                    }
+
+                    if (
+                        layer
+                            .getBounds()
+                            .contains(clicked)
+                    ) {
+
+                        clickedBuilding = true;
+
+                    }
+
+                }
+            );
+
         }
-    );
-});
+
+        if (!clickedBuilding) {
+
+            createRoute(
+                clicked,
+                "Custom Destination"
+            );
+
+        }
+
+    }
+);
+
+
+map.on(
+    "drag",
+    () => {
+
+        map.panInsideBounds(
+            campusBounds,
+            {
+                animate: false
+            }
+        );
+
+    }
+);

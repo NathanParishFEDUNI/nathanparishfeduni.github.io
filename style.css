@@ -179,31 +179,60 @@ FLOOR PLAN VIEWER
     background: #eee;
 
     touch-action: none;
+
+    user-select: none;
 }
 
 #floorPlanContainer {
     position: relative;
 
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    max-width: 100%;
-    max-height: 100%;
+    flex-shrink: 0;
 }
 
 #floorPlan {
     display: block;
 
-    max-width: 100%;
-    max-height: 100%;
-
     width: auto;
     height: auto;
 
-    object-fit: contain;
+    max-width: none;
+    max-height: none;
 
     user-select: none;
 
-    cursor: grabbing;
-    
+    cursor: default;
+
     transform-origin: center center;
+
+    will-change: transform;
+
+    pointer-events: none;
+}
+
+.floor-navigation {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    padding: 10px 15px 15px;
+}
+
+.floor-navigation a {
+    padding: 8px 14px;
+
+    background: #f2f2f2;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    color: #222;
 }

@@ -1,79 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Federation University Walking Navigation
-    </title>
-
-    <!-- LEAFLET -->
+    <title>Federation University Walking Navigation</title>
 
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet/dist/leaflet.css"
-    />
-
-    <!-- ROUTING MACHINE -->
+    >
 
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"
-    />
-
-    <!-- CUSTOM CSS -->
+    >
 
     <link
         rel="stylesheet"
         href="style.css"
-    />
+    >
 
 </head>
 
 <body>
 
-<main>
-    <header>
+<header>
+
     <div class="search-bar">
 
-        <input 
-            type="text" 
-            id="pageSearch" 
+        <input
+            type="text"
+            id="pageSearch"
             placeholder="Search buildings..."
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
         >
 
         <div id="searchResults"></div>
 
     </div>
-    </header>
+
+</header>
+
+<main>
 
     <div id="map"></div>
 
-    <!-- LEAFLET -->
+</main>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<footer>
 
-    <!-- ROUTING MACHINE -->
+    <button class="mapButton">
+        Map
+    </button>
 
-    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <button>
+        Points of Interest
+    </button>
 
-    <!-- APP -->
+    <button id="buildingsBtn">
+        Buildings
+    </button>
 
-    <script src="app.js"></script>
-    <script src="scripts/search.js"></script>
-    <script src="scripts/footer.js"></script>
+</footer>
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <!-- Bottom navigation -->
-    <footer>
-        <button class="mapButton">Map</button>
-        <button>Points of Interest</button>
-        <button id="buildingsBtn">Buildings</button>
-    </footer>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
-    </main>
+<script src="app.js"></script>
+<script src="scripts/search.js"></script>
+<script src="scripts/footer.js"></script>
 
 </body>
+
 </html>
