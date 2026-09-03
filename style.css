@@ -14,7 +14,7 @@ body {
 
 #map {
     width: 100vw;
-    height: 100vh;
+    height: calc(100dvh - 60px);
 
     z-index: 1;
 }
@@ -39,9 +39,6 @@ ROUTING PANEL
     z-index: 1;
 }
 
-.leaflet-bottom {
-    bottom: 60px;
-}
 
 /*
 MOBILE IMPROVEMENTS

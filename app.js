@@ -30,7 +30,8 @@ L.tileLayer(
             '<a href="https://www.openstreetmap.org/copyright" target="_blank">' +
             '<img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Openstreetmap_logo.svg" ' +
             'alt="OpenStreetMap" style="height:18px; vertical-align:middle;"> ' +
-            'OpenStreetMap</a>'
+            'OpenStreetMap</a> | ' +
+            '<a href="https://leafletjs.com/" target="_blank">Leaflet</a>'
     }
 ).addTo(map);
 
@@ -110,6 +111,7 @@ function updateUserLocation(lat, lng, accuracy) {
     if (!lastRoutePosition) {
 
         updateRouteFromCurrentLocation();
+
         return;
 
     }
@@ -269,7 +271,6 @@ function updateRouteFromCurrentLocation() {
             collapsible: false,
 
             itineraryBuilder: false,
-
 
             createMarker: () => null,
 
