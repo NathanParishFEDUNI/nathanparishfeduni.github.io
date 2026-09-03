@@ -23,12 +23,14 @@ const map = L.map("map", {
 
 });
 
-map.attributionControl.setPrefix(false);
-
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
-        attribution: "&copy; OpenStreetMap contributors"
+        attribution:
+            '<a href="https://www.openstreetmap.org/copyright" target="_blank">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Openstreetmap_logo.svg" ' +
+            'alt="OpenStreetMap" style="height:18px; vertical-align:middle;"> ' +
+            'OpenStreetMap</a>'
     }
 ).addTo(map);
 
@@ -263,6 +265,11 @@ function updateRouteFromCurrentLocation() {
             fitSelectedRoutes: false,
 
             show: false,
+
+            collapsible: false,
+
+            itineraryBuilder: false,
+
 
             createMarker: () => null,
 
