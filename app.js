@@ -27,7 +27,7 @@ L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
         attribution:
-            "OpenStreetMap | Leaflet"
+            "OpenStreetMap | Leaflet     "
     }
 ).addTo(map);
 
