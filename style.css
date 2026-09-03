@@ -39,6 +39,10 @@ ROUTING PANEL
     z-index: 1;
 }
 
+.leaflet-bottom {
+    bottom: 60px;
+}
+
 /*
 MOBILE IMPROVEMENTS
 */
