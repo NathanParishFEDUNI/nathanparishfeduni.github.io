@@ -27,11 +27,9 @@ L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
         attribution:
-            '<a href="https://www.openstreetmap.org/copyright" target="_blank">' +
             '<img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Openstreetmap_logo.svg" ' +
             'alt="OpenStreetMap" style="height:18px; vertical-align:middle;"> ' +
-            'OpenStreetMap</a> | ' +
-            '<a href="https://leafletjs.com/" target="_blank">Leaflet</a>'
+            'OpenStreetMap | Leaflet'
     }
 ).addTo(map);
 
