@@ -13,11 +13,14 @@ body {
 }
 
 #map {
-    width: 100vw;
+    width: 100%;
     height: calc(100dvh - 60px);
 
-    z-index: 1001;
+    position: relative;
+
+    z-index: 1;
 }
+
 
 /*
 ROUTING PANEL
@@ -36,7 +39,7 @@ ROUTING PANEL
 
     font-size: 14px;
 
-    z-index: 1;
+    z-index: 1002;
 }
 
 
@@ -52,12 +55,14 @@ MOBILE IMPROVEMENTS
     }
 }
 
+
 /*
 SEARCH BAR
 */
 
 .search-bar {
     position: fixed;
+
     top: 20px;
     left: 50%;
 
@@ -65,21 +70,24 @@ SEARCH BAR
 
     transform: translateX(-50%);
 
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .search-bar input {
     width: 100%;
+
     box-sizing: border-box;
 
     padding: 12px 18px;
 
     border: 1px solid #ccc;
+
     border-radius: 25px;
 
     background: white;
 
     font-family: Arial, sans-serif;
+
     font-size: 16px;
 
     outline: none;
@@ -89,6 +97,7 @@ SEARCH BAR
     display: none;
 
     width: 100%;
+
     box-sizing: border-box;
 
     margin-top: 5px;
@@ -106,6 +115,7 @@ SEARCH BAR
     padding: 12px 18px;
 
     font-family: Arial, sans-serif;
+
     font-size: 16px;
 
     background: white;
@@ -117,12 +127,14 @@ SEARCH BAR
     background: #f2f2f2;
 }
 
+
 /*
 BOTTOM NAVIGATION
 */
 
 footer {
     position: fixed;
+
     bottom: 0;
     left: 0;
 
@@ -132,14 +144,18 @@ footer {
     box-sizing: border-box;
 
     background: rgb(23, 31, 146);
+
     border-top: 1px solid #ccc;
 
     display: flex;
+
     justify-content: space-around;
+
     align-items: center;
 
-    z-index: 1000;
+    z-index: 2000;
 }
+
 
 /*
 STANDARD PAGE CONTENT
@@ -151,21 +167,27 @@ main {
 
 main h1 {
     margin: 0;
+
     padding: 15px;
+
     padding-top: 80px;
+
     text-align: center;
 }
 
 main h2 {
     margin: 0;
+
     padding: 15px;
 }
 
 p {
     margin: 0;
+
     padding-bottom: 15px;
     padding-left: 15px;
 }
+
 
 /*
 FLOOR PLAN VIEWER
@@ -181,7 +203,9 @@ FLOOR PLAN VIEWER
     overflow: hidden;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     background: #eee;
@@ -189,6 +213,7 @@ FLOOR PLAN VIEWER
     touch-action: none;
 
     user-select: none;
+
     -webkit-user-select: none;
 }
 
@@ -196,7 +221,9 @@ FLOOR PLAN VIEWER
     position: relative;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     flex-shrink: 0;
@@ -212,6 +239,7 @@ FLOOR PLAN VIEWER
     max-height: none;
 
     user-select: none;
+
     -webkit-user-select: none;
 
     -webkit-user-drag: none;
