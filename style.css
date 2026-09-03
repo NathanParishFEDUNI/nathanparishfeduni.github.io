@@ -12,11 +12,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-body {
-    padding-bottom: 60px;
-    box-sizing: border-box;
-}
-
 #map {
     width: 100vw;
     height: 100vh;
@@ -146,8 +141,12 @@ footer {
 }
 
 /*
-BUILDINGS PAGE
+STANDARD PAGE CONTENT
 */
+
+main {
+    padding-bottom: 80px;
+}
 
 main h1 {
     margin: 0;
