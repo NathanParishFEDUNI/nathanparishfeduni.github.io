@@ -14,10 +14,14 @@
 <header>
     <div class="search-bar">
 
-        <input 
-            type="text" 
-            id="pageSearch" 
+        <input
+            type="text"
+            id="pageSearch"
             placeholder="Search buildings..."
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
         >
 
         <div id="searchResults"></div>
@@ -29,17 +33,38 @@
  <main>
  <h1>Building - L - Level - 1</h1>
 
-   <p><a href="Level_0.html">Level 0</a></p>
-  <p><a href="Level_1.html">Level 1</a></p>
-  <p><a href="Level_2.html">Level 2</a></p>
-  <p><a href="Level_9.html">Level 9</a></p>
+    <div class="floor-navigation">
+
+        <a href="Level_0.html">
+            Level 0
+        </a>
+
+        <a href="Level_1.html">
+            Level 1
+        </a>
+
+        <a href="Level_2.html">
+            Level 2
+        </a>
+
+        <a href="Level_9.html">
+            Level 9
+        </a>
+
+    </div>
+
 
      <div id="imageViewer">
-        <img 
-            id="floorPlan"
-            src="Images/FP-MTH L Level 1.png"
-            alt="L Building Level 1 Floor Plan"
-        >
+
+            <div id="floorPlanContainer">
+
+                <img 
+                  id="floorPlan"
+                  src="Images/FP-MTH L Level 1.png"
+                  alt="L Building Level 1 Floor Plan"
+                >
+
+            </div>
     </div>
  </main>
 
