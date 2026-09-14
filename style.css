@@ -167,8 +167,8 @@ footer button {
     cursor: pointer;
 }
 
-footer button.active {
-    background: black;
+.floor-navigation a:not([href]) {
+    background: rgb(23, 31, 146);
     color: white;
 }
 
