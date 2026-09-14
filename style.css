@@ -167,11 +167,6 @@ footer button {
     cursor: pointer;
 }
 
-.floor-navigation a:not([href]) {
-    background: rgb(23, 31, 146);
-    color: white;
-}
-
 
 /*
 STANDARD PAGE CONTENT
@@ -255,40 +250,31 @@ FLOOR PLAN VIEWER
     max-height: none;
 
     user-select: none;
-
     -webkit-user-select: none;
-
     -webkit-user-drag: none;
-
     cursor: default;
-
     transform-origin: center center;
-
     will-change: transform;
-
     pointer-events: none;
 }
 
 .floor-navigation {
     display: flex;
-
     justify-content: center;
-
     flex-wrap: wrap;
-
     gap: 10px;
-
     padding: 10px 15px 15px;
 }
 
 .floor-navigation a {
     padding: 8px 14px;
-
     background: #f2f2f2;
-
     border-radius: 8px;
-
     text-decoration: none;
-
     color: #222;
+}
+
+.floor-navigation a:not([href]) {
+    background: rgb(23, 31, 146);
+    color: white;
 }
