@@ -195,9 +195,11 @@ FLOOR NAVIGATION
 .floor-navigation {
     display: grid;
 
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, auto);
 
     grid-auto-rows: 30px;
+
+    justify-content: center;
 
     width: 100%;
 
@@ -211,7 +213,6 @@ FLOOR NAVIGATION
 
     flex-shrink: 0;
 }
-
 .floor-navigation a {
     display: flex;
 
