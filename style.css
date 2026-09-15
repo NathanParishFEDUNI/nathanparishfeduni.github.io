@@ -212,12 +212,12 @@ FLOOR PLAN VIEWER
 #imageViewer {
     position: relative;
     width: 100%;
-    height: calc(100dvh - 60px); /* footer height */
-    display: flex;
-    flex-direction: column;
-    background: #eee;
+    height: calc(100dvh - 240px);
     overflow: hidden;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eee;
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;
