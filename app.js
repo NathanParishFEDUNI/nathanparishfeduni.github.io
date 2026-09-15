@@ -580,7 +580,7 @@ fetch(
 
             const building = data.features.find(
                 feature =>
-                    feature.properties?.["@id"] === buildingId
+                    feature.id === buildingId
             );
 
             if (building) {
