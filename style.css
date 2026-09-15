@@ -195,7 +195,7 @@ FLOOR NAVIGATION
 .floor-navigation {
     display: grid;
 
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, auto);
 
     grid-auto-rows: 30px;
 
