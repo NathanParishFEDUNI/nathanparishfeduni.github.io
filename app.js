@@ -64,6 +64,9 @@ let routeRequestInProgress = false;
 const ROUTE_UPDATE_DISTANCE = 5;
 const MAX_GPS_ACCURACY = 50;
 
+const params = new URLSearchParams(window.location.search);
+const buildingId = params.get("building");
+
 
 function updateUserLocation(lat, lng, accuracy) {
 
@@ -571,6 +574,40 @@ fetch(
                 }
             )
             .addTo(map);
+
+
+        if (buildingId) {
+
+            const building = data.features.find(
+                feature =>
+                    feature.properties?.["@id"] === buildingId
+            );
+
+            if (building) {
+
+                const selectedBuildingLayer =
+                    L.geoJSON(building);
+
+                const bounds =
+                    selectedBuildingLayer.getBounds();
+
+                const centre =
+                    bounds.getCenter();
+
+                map.setView(
+                    centre,
+                    18
+                );
+
+                routeToBuilding(
+                    centre.lat,
+                    centre.lng,
+                    building.properties?.name || "Building"
+                );
+
+            }
+
+        }
 
     })
     .catch(error => {
