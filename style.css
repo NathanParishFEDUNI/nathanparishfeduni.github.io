@@ -17,6 +17,11 @@ body.buildings-page {
     overflow-y: auto;
 }
 
+
+/*
+MAP
+*/
+
 #map {
     width: 100%;
     height: calc(100dvh - 60px);
@@ -47,15 +52,11 @@ ROUTING PANEL
     z-index: 1002;
 }
 
-
-/*
-MOBILE IMPROVEMENTS
-*/
-
 @media (max-width: 768px) {
 
     .leaflet-routing-container {
         width: 90%;
+
         font-size: 12px;
     }
 }
@@ -134,7 +135,154 @@ SEARCH BAR
 
 
 /*
-BOTTOM NAVIGATION
+FLOORPLAN VIEWER
+*/
+
+#imageViewer {
+    position: relative;
+
+    width: 100%;
+
+    /*
+    120px floor navigation
+    60px footer
+    */
+    height: calc(100dvh - 180px);
+
+    overflow: hidden;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: #eee;
+
+    touch-action: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    box-sizing: border-box;
+}
+
+
+/*
+FLOORPLAN CONTAINER
+*/
+
+#floorPlanContainer {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    overflow: visible;
+
+    box-sizing: border-box;
+}
+
+
+/*
+FLOORPLAN IMAGE
+*/
+
+#floorPlan {
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: none;
+    max-height: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-user-drag: none;
+
+    cursor: default;
+
+    transform-origin: center center;
+
+    will-change: transform;
+
+    pointer-events: none;
+}
+
+
+/*
+FLOOR NAVIGATION
+*/
+
+.floor-navigation {
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    grid-template-rows: repeat(2, 60px);
+
+    width: 100%;
+
+    height: 120px;
+
+    box-sizing: border-box;
+
+    gap: 8px;
+
+    padding: 8px 10px;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+.floor-navigation a {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    min-width: 0;
+    min-height: 0;
+
+    padding: 6px 4px;
+
+    background: #f2f2f2;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    color: #222;
+
+    text-align: center;
+
+    font-size: clamp(8px, 2.5vw, 16px);
+
+    line-height: 1.1;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+.floor-navigation a:not([href]) {
+    background: rgb(23, 31, 146);
+
+    color: white;
+}
+
+
+/*
+BOTTOM NAVIGATION / FOOTER
 */
 
 footer {
@@ -144,6 +292,7 @@ footer {
     left: 0;
 
     width: 100%;
+
     height: 60px;
 
     box-sizing: border-box;
@@ -155,7 +304,6 @@ footer {
     display: flex;
 
     justify-content: space-around;
-
     align-items: center;
 
     z-index: 2000;
@@ -208,139 +356,6 @@ p {
     margin: 0;
 
     padding-bottom: 15px;
+
     padding-left: 15px;
-}
-
-
-/*
-FLOOR PLAN VIEWER
-*/
-
-#imageViewer {
-    position: relative;
-
-    width: 100%;
-
-    height: calc(100dvh - 120px);
-
-    overflow: hidden;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background: #eee;
-
-    touch-action: none;
-
-    user-select: none;
-
-    -webkit-user-select: none;
-}
-
-#floorPlanContainer {
-    position: relative;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    width: 100%;
-
-    height: 100%;
-
-    flex-shrink: 0;
-
-    overflow: visible;
-
-    box-sizing: border-box;
-}
-
-#floorPlan {
-    display: block;
-
-    width: auto;
-    height: auto;
-
-    max-width: none;
-    max-height: none;
-
-    user-select: none;
-
-    -webkit-user-select: none;
-
-    -webkit-user-drag: none;
-
-    cursor: default;
-
-    transform-origin: center center;
-
-    will-change: transform;
-
-    pointer-events: none;
-}
-
-
-/*
-FLOOR NAVIGATION
-*/
-
-.floor-navigation {
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    grid-auto-rows: 1fr;
-
-    width: 100%;
-
-    height: 120px;
-
-    box-sizing: border-box;
-
-    gap: 8px;
-
-    padding: 8px 10px;
-
-    overflow: hidden;
-}
-
-.floor-navigation a {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    min-width: 0;
-    min-height: 0;
-
-    padding: 6px 4px;
-
-    background: #f2f2f2;
-
-    border-radius: 8px;
-
-    text-decoration: none;
-
-    color: #222;
-
-    text-align: center;
-
-    font-size: clamp(10px, 2.5vw, 16px);
-
-    line-height: 1.1;
-
-    white-space: nowrap;
-
-    box-sizing: border-box;
-}
-
-.floor-navigation a:not([href]) {
-    background: rgb(23, 31, 146);
-
-    color: white;
 }
