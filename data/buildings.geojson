@@ -4158,7 +4158,7 @@
         "name": "T Building",
         "page": "buildings/T_Building/Level_0.html",
         "roomPrefix": "T[0-3]",
-        "roomPattern": "^T\\d{0,2}$"
+        "roomPattern": "^T\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
