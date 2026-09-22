@@ -661,8 +661,7 @@ map.on(
         if (!clickedBuilding) {
 
             createRoute(
-                clicked,
-                "Custom Destination"
+                clicked
             );
 
         }
