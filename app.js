@@ -578,26 +578,29 @@ fetch(
 
         if (buildingId) {
 
-            const building = data.features.find(
-                feature =>
-                    feature.id === buildingId
-            );
+    const building = data.features.find(
+        feature => feature.id === buildingId
+    );
 
-            if (building) {
+    if (building) {
 
-                const selectedBuildingLayer =
-                    L.geoJSON(building);
+        const selectedBuildingLayer =
+            L.geoJSON(building);
 
-                const bounds =
-                    selectedBuildingLayer.getBounds();
+        const bounds =
+            selectedBuildingLayer.getBounds();
 
-                const centre =
-                    bounds.getCenter();
+        const centre =
+            bounds.getCenter();
 
-                map.setView(
-                    centre,
-                    18
-                );
+        map.setView(
+            centre,
+            18
+        );
+
+        const startRoute = () => {
+
+            if (userLatLng) {
 
                 routeToBuilding(
                     centre.lat,
@@ -605,9 +608,22 @@ fetch(
                     building.properties?.name || "Building"
                 );
 
+            } else {
+
+                setTimeout(
+                    startRoute,
+                    500
+                );
+
             }
 
-        }
+        };
+
+        startRoute();
+
+    }
+
+}
 
     })
     .catch(error => {
