@@ -576,7 +576,7 @@ fetch(
             .addTo(map);
 
 
-        if (buildingId) {
+if (buildingId) {
 
     const building = data.features.find(
         feature => feature.id === buildingId
@@ -598,30 +598,16 @@ fetch(
             18
         );
 
-        const startRoute = () => {
-
-            if (userLatLng) {
-
-                routeToBuilding(
-                    centre.lat,
-                    centre.lng,
+        destinationMarker =
+            L.marker(centre)
+                .addTo(map)
+                .bindPopup(
                     building.properties?.name || "Building"
-                );
-
-            } else {
-
-                setTimeout(
-                    startRoute,
-                    500
-                );
-
-            }
-
-        };
-
-        startRoute();
+                )
+                .openPopup();
 
     }
+
 
 }
 
