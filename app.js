@@ -183,7 +183,9 @@ const locateButton =
 
 locateButton.addEventListener(
     "click",
-    () => {
+    event => {
+
+        event.stopPropagation();
 
         if (!userLatLng) {
 
