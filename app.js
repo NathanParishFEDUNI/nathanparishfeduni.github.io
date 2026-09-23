@@ -178,6 +178,30 @@ if (navigator.geolocation) {
 
 }
 
+const locateButton =
+    document.getElementById("locateButton");
+
+locateButton.addEventListener(
+    "click",
+    () => {
+
+        if (!userLatLng) {
+
+            alert(
+                "Waiting for GPS location..."
+            );
+
+            return;
+        }
+
+        map.setView(
+            userLatLng,
+            18
+        );
+
+    }
+);
+
 
 function createRoute(
     destination,
