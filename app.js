@@ -235,11 +235,15 @@ function createRoute(
 
     }
 
-    destinationMarker =
-        L.marker(destination)
-            .addTo(map)
-            .bindPopup(name)
-            .openPopup();
+destinationMarker =
+    L.marker(destination)
+        .addTo(map)
+        .bindPopup(name)
+        .openPopup();
+
+setTimeout(() => {
+    destinationMarker.closePopup();
+}, 3000);
 
     if (routingControl) {
 
