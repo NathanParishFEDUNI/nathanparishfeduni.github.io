@@ -1082,7 +1082,8 @@
         "building": "university",
         "layer": "1",
         "name": "Caro Convention Centre",
-        "source": "Bing"
+        "source": "Bing",
+        "page": "buildings/Caro_Convention_Centre/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
