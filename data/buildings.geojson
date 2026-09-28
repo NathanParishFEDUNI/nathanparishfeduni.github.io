@@ -11,7 +11,9 @@
         "building": "university",
         "name": "C Building Geoffrey Blainey Auditorium",
         "source": "Bing",
-        "page": "buildings/C_Building/Level_0.html"
+        "page": "buildings/C_Building/Level_0.html",
+        "roomPrefix": "C[0-3]",
+        "roomPattern": "^C\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -106,7 +108,9 @@
         "description": "Swimming Pool, Gym",
         "name": "P Building",
         "source": "Bing",
-        "page": "buildings/P_Building/Level_1.html"
+        "page": "buildings/P_Building/Level_1.html",
+        "roomPrefix": "P[0-3]",
+        "roomPattern": "^P\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -245,7 +249,9 @@
         "layer": "1",
         "name": "B Building",
         "source": "Bing",
-        "page": "buildings/B_Building/Level_0.html"
+        "page": "buildings/B_Building/Level_0.html",
+        "roomPrefix": "B[0-3]",
+        "roomPattern": "^B\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -386,7 +392,9 @@
         "name": "L Building: E J Barker Library",
         "opening_hours": "Mo-Fr 09:00-17:00",
         "source": "Bing",
-        "page": "buildings/L_Building/Level_0.html"
+        "page": "buildings/L_Building/Level_0.html",
+        "roomPrefix": "L[0-3]",
+        "roomPattern": "^L\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -496,7 +504,9 @@
         "building": "university",
         "name": "U Building: Albert Coates Complex",
         "source": "Bing",
-        "page": "buildings/U_Building/Level_0.html"
+        "page": "buildings/U_Building/Level_0.html",
+        "roomPrefix": "U[0-3]",
+        "roomPattern": "^U\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -618,7 +628,9 @@
         "building": "university",
         "name": "E Building",
         "source": "Bing",
-        "page": "buildings/E_Building/Level_1.html"
+        "page": "buildings/E_Building/Level_1.html",
+        "roomPrefix": "E[0-3]",
+        "roomPattern": "^E\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -709,7 +721,9 @@
         "layer": "1",
         "name": "K Building Children's Centre",
         "source": "Bing",
-        "page": "buildings/K_Building/Level_1.html"
+        "page": "buildings/K_Building/Level_1.html",
+        "roomPrefix": "K[0-3]",
+        "roomPattern": "^K\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -807,7 +821,9 @@
         "building": "university",
         "name": "F Building",
         "source": "Bing",
-        "page": "buildings/F_Building/Level_2.html"
+        "page": "buildings/F_Building/Level_2.html",
+        "roomPrefix": "F[0-3]",
+        "roomPattern": "^F\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -929,7 +945,9 @@
         "building": "yes",
         "name": "G Building - M B John Building",
         "source": "Bing",
-        "page": "buildings/G_Building/Level_2.html"
+        "page": "buildings/G_Building/Level_2.html",
+        "roomPrefix": "G[0-3]",
+        "roomPattern": "^G\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -1205,7 +1223,7 @@
           ]
         ]
       },
-      "id": "way/130330677"
+      "id": "Caro"
     },
     {
       "type": "Feature",
@@ -1214,7 +1232,9 @@
         "building": "university",
         "name": "A Building",
         "source": "Bing",
-        "page": "buildings/A_Building/Level_0.html"
+        "page": "buildings/A_Building/Level_0.html",
+        "roomPrefix": "A[0-3]",
+        "roomPattern": "^A\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -1322,7 +1342,7 @@
       "properties": {
         "@id": "way/130330680",
         "building": "yes",
-        "name": "Central Store",
+        "name": "V Building, Central Store",
         "source": "Bing"
       },
       "geometry": {
@@ -1352,7 +1372,7 @@
           ]
         ]
       },
-      "id": "CS"
+      "id": "V"
     },
     {
       "type": "Feature",
@@ -1410,7 +1430,9 @@
         "building": "university",
         "name": "Q Building - Tin Shed",
         "source": "Bing",
-        "page": "buildings/Q_Building/Q1_Level_6.html"
+        "page": "buildings/Q_Building/Q1_Level_6.html",
+        "roomPrefix": "Q[0-3]",
+        "roomPattern": "^Q\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -1503,7 +1525,9 @@
         "@id": "way/243724098",
         "building": "university",
         "name": "Y Building", 
-        "page": "buildings/Y_Building/Level_0_East.html"
+        "page": "buildings/Y_Building/Level_0_East.html",
+        "roomPrefix": "Y[0-3]",
+        "roomPattern": "^Y\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -1560,7 +1584,9 @@
         "@id": "way/313510339",
         "building": "university",
         "name": "H Building",
-        "page": "buildings/H_Building/Level_1.html"
+        "page": "buildings/H_Building/Level_1.html",
+        "roomPrefix": "H[0-3]",
+        "roomPattern": "^H\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -1725,7 +1751,9 @@
         "@id": "way/313510340",
         "building": "university",
         "name": "S Building",
-        "page": "buildings/S_Building/Level_0.html"
+        "page": "buildings/S_Building/Level_0.html",
+        "roomPrefix": "S[0-3]",
+        "roomPattern": "^S\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -1862,7 +1890,9 @@
         "@id": "way/313510402",
         "building": "university",
         "name": "Q Building",
-        "page": "buildings/Q_Building/Q1_Level_6.html"
+        "page": "buildings/Q_Building/Q1_Level_6.html",
+        "roomPrefix": "Q[0-3]",
+        "roomPattern": "^Q\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
@@ -2038,7 +2068,9 @@
         "@id": "way/313510597",
         "building": "university",
         "name": "D Building",
-        "page": "buildings/D_Building/Level_0.html"
+        "page": "buildings/D_Building/Level_0.html",
+        "roomPrefix": "D[0-3]",
+        "roomPattern": "^D\\d{0,3}$"
       },
       "geometry": {
         "type": "Polygon",
