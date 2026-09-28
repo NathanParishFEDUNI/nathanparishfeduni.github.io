@@ -106,7 +106,7 @@
         "@id": "way/130330647",
         "building": "university",
         "description": "Swimming Pool, Gym",
-        "name": "P Building",
+        "name": "P Building - Pool/Gym",
         "source": "Bing",
         "page": "buildings/P_Building/Level_1.html",
         "roomPrefix": "P[0-3]",
