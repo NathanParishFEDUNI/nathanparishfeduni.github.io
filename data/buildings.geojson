@@ -502,7 +502,7 @@
       "properties": {
         "@id": "way/130330659",
         "building": "university",
-        "name": "U Building: Albert Coates Complex",
+        "name": "U Building: Albert Coates Complex, Cafeteria",
         "source": "Bing",
         "page": "buildings/U_Building/Level_0.html",
         "roomPrefix": "U[0-3]",
@@ -1081,7 +1081,7 @@
         "@id": "way/130330677",
         "building": "university",
         "layer": "1",
-        "name": "Caro Convention Centre",
+        "name": "M Building - Caro Convention Centre",
         "source": "Bing",
         "page": "buildings/Caro_Convention_Centre/Level_0.html"
       },
@@ -1224,7 +1224,7 @@
           ]
         ]
       },
-      "id": "Caro"
+      "id": "M"
     },
     {
       "type": "Feature",
