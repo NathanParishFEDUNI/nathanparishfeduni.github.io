@@ -83,10 +83,6 @@ function updateUserLocation(lat, lng, accuracy) {
         return;
     }
 
-    if (!campusBounds.contains(newPosition)) {
-        return;
-    }
-
     userLatLng = newPosition;
 
     if (!userMarker) {
@@ -101,8 +97,10 @@ function updateUserLocation(lat, lng, accuracy) {
                 fillOpacity: 1
             }
         ).addTo(map);
-
-        map.setView(userLatLng, 18);
+        
+        if (campusBounds.contains(userLatLng)) {
+            map.setView(userLatLng, 18);
+}
 
     } else {
 
