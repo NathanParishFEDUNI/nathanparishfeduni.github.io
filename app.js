@@ -98,8 +98,9 @@ function updateUserLocation(lat, lng, accuracy) {
             }
         ).addTo(map);
         
-
+    if (campusBounds.contains(userLatLng)) {
         map.setView(userLatLng, 18);
+    }
 
     } else {
 
