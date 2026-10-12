@@ -2445,7 +2445,8 @@
       "properties": {
         "@id": "way/315280109",
         "building": "university",
-        "name": "Unknown, attached to D an T"
+        "name": "Medical Building, attached to T",
+        "page": "buildings/T_Building/Level_0.html"
       },
       "geometry": {
         "type": "Polygon",
